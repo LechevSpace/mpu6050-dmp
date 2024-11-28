@@ -327,9 +327,39 @@ impl MeanAccumulator {
 
     /// Adds a new sample (subtracting the reference gravity)
     pub fn add(&mut self, accel: &Accel, gyro: &Gyro) {
-        self.ax += (accel.x() - self.gravity_compensation.x()) as i32;
-        self.ay += (accel.y() - self.gravity_compensation.y()) as i32;
-        self.az += (accel.z() - self.gravity_compensation.z()) as i32;
+        let add = |accel_axis: i16, gravity_compensation_axis: i16| -> i32 {
+            match (accel_axis, gravity_compensation_axis) {
+                (a, b) if a.is_negative() && b.is_negative() => {
+                    #[cfg(feature = "defmt-03")]
+                    defmt::info!("-a + -b; {} + {}", a, b);
+
+                    a.saturating_add(b) as i32
+                },
+                (a, b) if a.is_positive() && b.is_negative() => {
+                    #[cfg(feature = "defmt-03")]
+                    defmt::info!("+a + -b; {} + {}", a, b);
+
+                    a.saturating_add(b) as i32
+                },
+                (a, b) if a.is_negative() && b.is_positive() => {
+                    #[cfg(feature = "defmt-03")]
+                    defmt::info!("-a + +b; {} + {}", a, b);
+
+                    a.saturating_add(b) as i32
+                },
+                // both are positive
+                (a, b) => {
+                    #[cfg(feature = "defmt-03")]
+                    defmt::info!("+a + +b; {} + {}", a, b);
+
+                    a.saturating_add(b) as i32
+                },
+            }
+        };
+
+        self.ax = self.ax.saturating_add(add(accel.x(), self.gravity_compensation.x()));
+        self.ay = self.ay.saturating_add(add(accel.y(), self.gravity_compensation.y()));
+        self.az = self.az.saturating_add(add(accel.z(), self.gravity_compensation.z()));
         self.gx += gyro.x() as i32;
         self.gy += gyro.y() as i32;
         self.gz += gyro.z() as i32;
