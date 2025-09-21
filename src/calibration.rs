@@ -23,6 +23,7 @@ pub(crate) const DELAY_MS: u32 = 2;
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub struct CalibrationThreshold {
     value: i16,
 }
@@ -110,6 +111,7 @@ impl CalibrationThreshold {
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub enum ReferenceGravity {
     Zero,
     XN,
@@ -153,6 +155,7 @@ impl ReferenceGravity {
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub struct CalibrationActions {
     flags: u8,
 }
@@ -252,6 +255,8 @@ impl CalibrationActions {
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+// Due to the `usize` used in 2 of the fields, we cannot derive Schema
+// #[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub struct CalibrationParameters {
     /// Acceleration scale
     pub accel_scale: AccelFullScale,
@@ -330,6 +335,7 @@ impl CalibrationParameters {
 /// - Gravity compensation vector
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub struct MeanAccumulator {
     pub ax: i32,
     pub ay: i32,

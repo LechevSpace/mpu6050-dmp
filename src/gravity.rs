@@ -25,6 +25,7 @@ use crate::quaternion::Quaternion;
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "postcard-experimental", derive(postcard::experimental::max_size::MaxSize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub struct Gravity {
     /// Forward/backward tilt component
     pub x: f32,

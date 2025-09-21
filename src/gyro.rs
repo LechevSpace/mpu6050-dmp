@@ -12,6 +12,7 @@
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "postcard-experimental", derive(postcard::experimental::max_size::MaxSize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub struct Gyro {
     pub(crate) x: i16,
     pub(crate) y: i16,
@@ -79,6 +80,7 @@ impl From<Gyro> for [i16; 3] {
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "postcard-experimental", derive(postcard::experimental::max_size::MaxSize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub enum GyroFullScale {
     /// ±250°/s range (131 LSB/°/s)
     Deg250 = 0,
@@ -114,6 +116,7 @@ impl GyroFullScale {
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "postcard-experimental", derive(postcard::experimental::max_size::MaxSize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub struct GyroF32 {
     /// Roll rate (°/s)
     x: f32,

@@ -21,6 +21,7 @@
 #[derive(Debug, Copy, Clone)]
 #[cfg_attr(feature = "defmt-03", derive(defmt::Format))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "postcard-schema", derive(postcard_schema::Schema))]
 pub enum ClockSource {
     /// Internal 8MHz oscillator
     /// - Fastest startup
